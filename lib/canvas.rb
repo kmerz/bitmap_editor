@@ -5,7 +5,7 @@ class Canvas
   attr_accessor :image
 
   def initialize(columns, rows)
-    self.image = Array.new(rows) { Array.new(columns) { Colors.white } }
+    self.image = get_clear_image(columns, rows)
   end
 
   def row_size
@@ -20,4 +20,11 @@ class Canvas
     return image[y][x]
   end
 
+  def clear!
+    self.image = get_clear_image(column_size, row_size)
+  end
+
+  def get_clear_image(columns, rows)
+    Array.new(rows) { Array.new(columns) { Colors.white } }
+  end
 end

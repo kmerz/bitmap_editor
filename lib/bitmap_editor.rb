@@ -16,12 +16,30 @@ class BitmapEditor
         return unless parse_cmd_I(line)
         puts "Create a new image of #{self.canvas.column_size} x " +
           "#{self.canvas.row_size}"
+      when /\AC/
+        return unless parse_cmd_C(line)
+        puts "Image is cleared."
       when 'S'
         puts "There is no image"
       else
         puts "unrecognised command :("
       end
     end
+  end
+
+  def parse_cmd_C(line)
+    if self.canvas.nil?
+      puts "No image to clear!"
+      return false
+    end
+
+    if line.match(/\AC.+\z/)
+      puts "C has no arguments"
+      return false
+    end
+
+    self.canvas.clear!
+    return true
   end
 
   def parse_cmd_I(line)

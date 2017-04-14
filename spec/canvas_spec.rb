@@ -51,4 +51,23 @@ describe Canvas do
       expect(@canvas.color_at(1,1)).to eq('O')
     end
   end
+
+  describe "clearing of canvas" do
+    before do
+      @canvas = Canvas.new(5, 5)
+    end
+
+    after do
+      @canvas = nil
+    end
+
+    it "should clear a canvas" do
+      @canvas.clear!
+      @canvas.column_size.times do |x|
+        @canvas.column_size.times do |y|
+          expect(@canvas.color_at(x,y)).to eq('O')
+        end
+      end
+    end
+  end
 end

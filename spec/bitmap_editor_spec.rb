@@ -106,5 +106,28 @@ describe BitmapEditor do
         }.to output("Columns value must be between 1 and 250\n").to_stdout
       end
     end
+
+    describe "Command C" do
+      it "should not clear a not exsisting canvas" do
+        @create_command_file.call('C')
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output("No image to clear!\n").to_stdout
+      end
+
+      it "should clear a exsisting canvas" do
+        @create_command_file.call("I 5 5\nC")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Image is cleared.\n$/).to_stdout
+      end
+
+      it "should warn if C gets called with arguments" do
+        @create_command_file.call("I 5 5\nC 1 2")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/C has no arguments\n$/).to_stdout
+      end
+    end
   end
 end
