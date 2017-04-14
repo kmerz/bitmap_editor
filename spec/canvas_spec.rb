@@ -37,4 +37,18 @@ describe Canvas do
       expect(canvas.column_size).to eq(5)
     end
   end
+
+  describe "get color of coordinate" do
+    before do
+      @canvas = Canvas.new(5, 5)
+    end
+
+    after do
+      @canvas = nil
+    end
+
+    it "should return the color O of a uninialized coordinate" do
+      expect(@canvas.color_at(1,1)).to eq('O')
+    end
+  end
 end
