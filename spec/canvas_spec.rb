@@ -2,16 +2,39 @@ require 'canvas'
 
 describe Canvas do
 
-  before do
-    @canvas = Canvas.new(5,5)
+  describe "initilization of canvas" do
+    before do
+      @canvas = Canvas.new(5,5)
+    end
+
+    after do
+      @canvas = nil
+    end
+
+    it "should initilize a canvas with values" do
+      expect(@canvas).to be
+    end
   end
 
-  after do
-    @canvas = nil
-  end
+  describe "size of settings of canvas" do
+    it "should return the count of 5 rows if y was set to 5" do
+      canvas = Canvas.new(5,5)
+      expect(canvas.row_size).to eq(5)
+    end
 
-  it "should initilize a canvas with values" do
-    expect(@canvas).to be
-  end
+    it "should return the count of 100 rows if y was set to 100" do
+      canvas = Canvas.new(5,100)
+      expect(canvas.row_size).to eq(100)
+    end
 
+    it "should return the count of 5 columns if x was set to 5" do
+      canvas = Canvas.new(5,5)
+      expect(canvas.column_size).to eq(5)
+    end
+
+    it "should return the count of 100 columns if x was set to 100" do
+      canvas = Canvas.new(5,5)
+      expect(canvas.column_size).to eq(5)
+    end
+  end
 end

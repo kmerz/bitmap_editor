@@ -51,5 +51,29 @@ describe BitmapEditor do
         @bitmap_editor.run(file)
       }.to output("There is no image\n").to_stdout
     end
+
+    it "should create a image of 5 5" do
+      file = "#{@tmp_dir}/command"
+      File.write(file, 'I 5 5')
+      expect {
+        @bitmap_editor.run(file)
+      }.to output("Create a new image of 5 x 5\n").to_stdout
+    end
+
+    it "should create a image of 100 125" do
+      file = "#{@tmp_dir}/command"
+      File.write(file, 'I 100 125')
+      expect {
+        @bitmap_editor.run(file)
+      }.to output("Create a new image of 100 x 125\n").to_stdout
+    end
+
+    it "should warn if the arguments are not integers" do
+      file = "#{@tmp_dir}/command"
+      File.write(file, 'I am 💩')
+      expect {
+        @bitmap_editor.run(file)
+      }.to output("Command I got non integer arguments\n").to_stdout
+    end
   end
 end
