@@ -70,4 +70,16 @@ describe Canvas do
       end
     end
   end
+
+  describe "to_s" do
+    it "should print a 2 x 2 a canvas" do
+      @canvas = Canvas.new(2, 2)
+      expect(@canvas.to_s).to eq("OO\nOO\n")
+    end
+
+    it "should print a 2 x 3 a canvas" do
+      @canvas = Canvas.new(2, 3)
+      expect(@canvas.to_s).to eq("OO\nOO\nOO\n")
+    end
+  end
 end

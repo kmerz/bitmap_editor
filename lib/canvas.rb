@@ -27,4 +27,14 @@ class Canvas
   def get_clear_image(columns, rows)
     Array.new(rows) { Array.new(columns) { Colors.white } }
   end
+
+  def to_s
+    return image.reduce("") do |result, row|
+      result = row.reduce(result) do |acc, pix|
+        acc += pix
+        acc
+      end + "\n"
+      result
+    end
+  end
 end

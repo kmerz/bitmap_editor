@@ -19,12 +19,26 @@ class BitmapEditor
       when /\AC/
         return unless parse_cmd_C(line)
         puts "Image is cleared."
-      when 'S'
-        puts "There is no image"
+      when /\AS/
+        parse_cmd_S(line)
       else
         puts "unrecognised command :("
       end
     end
+  end
+
+  def parse_cmd_S(line)
+    unless line.match(/\AS\z/)
+      puts "S has no arguments"
+      return
+    end
+
+    if self.canvas.nil?
+      puts "There is no image"
+      return
+    end
+
+    puts self.canvas.to_s
   end
 
   def parse_cmd_C(line)

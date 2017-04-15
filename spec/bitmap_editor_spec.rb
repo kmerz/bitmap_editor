@@ -47,13 +47,6 @@ describe BitmapEditor do
           @bitmap_editor.run(@file)
         }.to output("unrecognised command :(\n").to_stdout
       end
-
-      it "should warn if command S (show) is called on unitialized bitmap" do
-        @create_command_file.call('S')
-        expect {
-          @bitmap_editor.run(@file)
-        }.to output("There is no image\n").to_stdout
-      end
     end
 
     describe "Command I" do
@@ -127,6 +120,36 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/C has no arguments\n$/).to_stdout
+      end
+    end
+
+    describe "Command S" do
+      it "should not print a not exsisting canvas" do
+        @create_command_file.call('S')
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output("There is no image\n").to_stdout
+      end
+
+      it "should warn if arguments are given to S" do
+        @create_command_file.call("I 2 2\nS am P")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/S has no arguments\n$/).to_stdout
+      end
+
+      it "should print the 2 x 2 image" do
+        @create_command_file.call("I 2 2\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/OO\nOO\n$/).to_stdout
+      end
+
+      it "should print the 2 x 3 image" do
+        @create_command_file.call("I 2 3\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/OO\nOO\nOO\n$/).to_stdout
       end
     end
   end

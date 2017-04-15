@@ -22,7 +22,7 @@ I 6 5
 
 ## Clear canvas
 
-To clear a canvas with white pixels add C to the canvas. This command
+To clear a canvas with white pixels add C to the image processing file. This command
 does not take any arguments.
 
 The example creates a white canvas with 5 rows and 6 columns and then
@@ -30,4 +30,16 @@ clears it to white.
 ```
 I 6 5
 C
+```
+
+## Print canvas
+
+To print the canvas add S to the image processing file. This command does not
+take any arguments.
+
+The example creates a white canvas with 5 rows and 6 columns and then
+prints it.
+```
+I 6 5
+S
 ```
