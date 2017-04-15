@@ -43,3 +43,20 @@ prints it.
 I 6 5
 S
 ```
+
+## Set single pixel
+
+Setting a single pixel on the canvas needs the `L` command. It take three
+arguments:
+
+   * `x` Integer between 1 and 255 which is used for the coordinate.
+   * `y` Integer between 1 and 255 which is used for the coordinate.
+   * `c` A color which is present as as a capital letter from A to Z
+
+This example creates a 6 to 5 pixel canvas and sets a pixel to 2 3 in the color A.
+After that it prints the result.
+```
+I 6 5
+L 2 3 A
+S
+```

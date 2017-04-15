@@ -1,4 +1,4 @@
-require 'canvas'
+require_relative './canvas'
 
 class BitmapEditor
 
@@ -21,20 +21,46 @@ class BitmapEditor
         puts "Image is cleared."
       when /\AS/
         parse_cmd_S(line)
+      when /\AL/
+        unless parse_cmd_L(line)
+          exit
+        end
       else
         puts "unrecognised command :("
       end
     end
   end
 
+  def parse_cmd_L(line)
+    if self.canvas.nil?
+      puts "There is no image"
+      return false
+    end
+
+    match, x, y, color = line.match(/\AL (\d+) (\d+) ([A-Z])\z/).to_a
+    if match.nil?
+      puts "Invalid arguments for L the command takes a coordinate of " +
+        "2 integers and color in the range from A to Z"
+      return false
+    end
+
+    if @canvas.color_pixel(x.to_i, y.to_i, color)
+      puts "Add pixel #{color} to #{x} #{y}"
+      return true
+    else
+      puts @canvas.error
+      return false
+    end
+  end
+
   def parse_cmd_S(line)
-    unless line.match(/\AS\z/)
-      puts "S has no arguments"
+    if self.canvas.nil?
+      puts "There is no image"
       return
     end
 
-    if self.canvas.nil?
-      puts "There is no image"
+    unless line.match(/\AS\z/)
+      puts "S has no arguments"
       return
     end
 
@@ -43,7 +69,7 @@ class BitmapEditor
 
   def parse_cmd_C(line)
     if self.canvas.nil?
-      puts "No image to clear!"
+      puts "There is no image"
       return false
     end
 

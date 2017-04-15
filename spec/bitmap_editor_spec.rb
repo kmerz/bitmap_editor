@@ -105,7 +105,7 @@ describe BitmapEditor do
         @create_command_file.call('C')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("No image to clear!\n").to_stdout
+        }.to output("There is no image\n").to_stdout
       end
 
       it "should clear a exsisting canvas" do
@@ -150,6 +150,63 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/OO\nOO\nOO\n$/).to_stdout
+      end
+    end
+
+    describe "Command L" do
+      it "should not add a pixel to an non exsiting canvas" do
+        @create_command_file.call('L 1 1 A')
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output("There is no image\n").to_stdout
+      end
+
+      it "should warn if no arguments are given" do
+        @create_command_file.call("I 2 3\nL")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for L the command takes a coordinate of/).
+          to_stdout
+      end
+
+      it "should warn if first argument is not an integer" do
+        @create_command_file.call("I 2 3\nL A 2 A")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for L the command takes a coordinate of/).
+          to_stdout
+      end
+
+      it "should warn if second argument is not an integer" do
+        @create_command_file.call("I 2 3\nL 2 A A")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for L the command takes a coordinate of/).
+          to_stdout
+      end
+
+      it "should warn if third argument is not a color from A to Z" do
+        @create_command_file.call("I 2 3\nL 2 3 1")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for L the command takes a coordinate of/).
+          to_stdout
+      end
+
+      it "should add a pixel in color A to coordinate 2 3 if everything is find" do
+        @create_command_file.call("I 2 3\nL 2 3 A\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Add pixel A to 2 3\nOO\nOO\nOA\n$/).
+          to_stdout
+      end
+
+      it "should not add  a pixel in color A to out of area coordinate" do
+        @create_command_file.call("I 2 3\nL 2 4 A\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Out of image area.\n$/).
+          to_stdout
       end
     end
   end
