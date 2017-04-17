@@ -4,6 +4,8 @@ class BitmapEditor
 
   attr_accessor :canvas
 
+  COMMANDS = [ 'I', 'C', 'S', 'L', 'V' ]
+
   def run(file)
     if file.nil? || !File.exists?(file)
       return puts "please provide correct file"
@@ -11,29 +13,25 @@ class BitmapEditor
 
     File.open(file).each do |line|
       line = line.chomp
-      case line
-      when /\AI .*\z/
-        return unless parse_cmd_I(line)
-      when /\AC/
-        return unless parse_cmd_C(line)
-      when /\AS/
-        return unless parse_cmd_S(line)
-      when /\AL/
-        return unless parse_cmd_L(line)
-      when /\AV/
-        return unless parse_cmd_V(line)
-      else
+
+      cmd = line.split.first
+      unless COMMANDS.include?(cmd)
         puts "unrecognised command :("
+        return
       end
+
+      if self.canvas.nil? && cmd != 'I'
+        puts "There is no image"
+        return
+      end
+
+      return unless self.send("cmd_#{cmd}", line)
     end
   end
 
-  def parse_cmd_V(line)
-    if self.canvas.nil?
-      puts "There is no image"
-      return false
-    end
+  private
 
+  def cmd_V(line)
     match, x, y1, y2, color = line.match(/\AV (\d+) (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
       puts "Invalid arguments for V the command takes a coordinate of " +
@@ -49,12 +47,7 @@ class BitmapEditor
     end
   end
 
-  def parse_cmd_L(line)
-    if self.canvas.nil?
-      puts "There is no image"
-      return false
-    end
-
+  def cmd_L(line)
     match, x, y, color = line.match(/\AL (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
       puts "Invalid arguments for L the command takes a coordinate of " +
@@ -70,12 +63,7 @@ class BitmapEditor
     end
   end
 
-  def parse_cmd_S(line)
-    if self.canvas.nil?
-      puts "There is no image"
-      return false
-    end
-
+  def cmd_S(line)
     unless line.match(/\AS\z/)
       puts "S has no arguments"
       return false
@@ -85,12 +73,7 @@ class BitmapEditor
     return true
   end
 
-  def parse_cmd_C(line)
-    if self.canvas.nil?
-      puts "There is no image"
-      return false
-    end
-
+  def cmd_C(line)
     if line.match(/\AC.+\z/)
       puts "C has no arguments"
       return false
@@ -100,7 +83,7 @@ class BitmapEditor
     return true
   end
 
-  def parse_cmd_I(line)
+  def cmd_I(line)
     unless line.match(/\AI \d+ \d+\z/)
       puts "Command I got non integer arguments"
       return false
