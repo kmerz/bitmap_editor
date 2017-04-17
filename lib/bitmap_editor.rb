@@ -20,9 +20,32 @@ class BitmapEditor
         return unless parse_cmd_S(line)
       when /\AL/
         return unless parse_cmd_L(line)
+      when /\AV/
+        return unless parse_cmd_V(line)
       else
         puts "unrecognised command :("
       end
+    end
+  end
+
+  def parse_cmd_V(line)
+    if self.canvas.nil?
+      puts "There is no image"
+      return false
+    end
+
+    match, x, y1, y2, color = line.match(/\AV (\d+) (\d+) (\d+) ([A-Z])\z/).to_a
+    if match.nil?
+      puts "Invalid arguments for V the command takes a coordinate of " +
+        "3 positive integers and color in the range from A to Z"
+      return false
+    end
+
+    if @canvas.vertical_line(x.to_i, y1.to_i, y2.to_i, color)
+      return true
+    else
+      puts @canvas.error
+      return false
     end
   end
 
@@ -35,7 +58,7 @@ class BitmapEditor
     match, x, y, color = line.match(/\AL (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
       puts "Invalid arguments for L the command takes a coordinate of " +
-        "2 integers and color in the range from A to Z"
+        "2 positive integers and color in the range from A to Z"
       return false
     end
 

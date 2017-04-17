@@ -3,6 +3,8 @@ class Colors
     :white => 'O'
   }
 
+  COLOR_RANGE = ("A".."Z").to_a
+
   def self.method_missing(method_name, *arguments, &block)
     if self.know_color?(method_name.to_sym)
       COLOR_MAP[method_name.to_sym]
@@ -17,6 +19,10 @@ class Colors
 
   def self.know_color?(color)
     COLOR_MAP.keys.include?(color)
+  end
+
+  def self.validate(color)
+    return COLOR_RANGE.include?(color)
   end
 
 end

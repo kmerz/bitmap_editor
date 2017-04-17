@@ -83,7 +83,7 @@ describe Canvas do
     end
   end
 
-  describe "color_pixel" do
+  describe "drawning" do
     before do
       @canvas = Canvas.new(3,3)
     end
@@ -92,38 +92,85 @@ describe Canvas do
       @canvas = nil
     end
 
-    it "should color the pixel 3 2 to A and return true" do
-      @canvas.color_pixel(3,2,'A')
-      expect(@canvas.to_s).to eq("OOO\nOOA\nOOO\n")
+    describe "color_pixel" do
+      it "should color the pixel 3 2 to A and return true" do
+        @canvas.color_pixel(3,2,'A')
+        expect(@canvas.to_s).to eq("OOO\nOOA\nOOO\n")
+      end
+
+      it "should color the pixel 1 3 to B and return true" do
+        expect(@canvas.color_pixel(1,3,'B')).to eq(true)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nBOO\n")
+      end
+
+      it "should not color the canvas outside of area, but return false and set" +
+        "error" do
+
+        expect(@canvas.color_pixel(4,4,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
+
+      it "should not color the canvas in negative dimenson, but return false " +
+        "and set error" do
+
+        expect(@canvas.color_pixel(-4,3,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
+
+      it "should not color the canvas at 0 but set an error and return" +
+        "false" do
+
+        expect(@canvas.color_pixel(1,0,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
+
+      it "should not color the canvas at with unknown color" do
+        expect(@canvas.color_pixel(1,1,'#333')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Unknown color.")
+      end
     end
 
-    it "should color the pixel 1 3 to B and return true" do
-      expect(@canvas.color_pixel(1,3,'B')).to eq(true)
-      expect(@canvas.to_s).to eq("OOO\nOOO\nBOO\n")
-    end
+    describe "vertical_line" do
+      it "should color the line in 1 column form 2 to 3 in W" do
+        expect(@canvas.vertical_line(1,2,3,'W')).to eq(true)
+        expect(@canvas.to_s).to eq("OOO\nWOO\nWOO\n")
+      end
 
-    it "should not color the canvas outside of area, but return false and set" +
-      "error" do
+      it "should color the line in 1 column form 3 to 2 in W" do
+        expect(@canvas.vertical_line(1,3,2,'W')).to eq(true)
+        expect(@canvas.to_s).to eq("OOO\nWOO\nWOO\n")
+      end
 
-      expect(@canvas.color_pixel(4,4,'B')).to eq(false)
-      expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
-      expect(@canvas.error).to eq("Out of image area.")
-    end
+      it "should color the line in 1 column form 1 to 3 in W" do
+        expect(@canvas.vertical_line(2,1,3,'W')).to eq(true)
+        expect(@canvas.to_s).to eq("OWO\nOWO\nOWO\n")
+      end
 
-    it "should not color the canvas in negative dimenson, but return false " +
-      "and set error" do
+      it "should not color the canvas at with unknown color" do
+        expect(@canvas.vertical_line(1,1,3,'#333')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Unknown color.")
+      end
 
-      expect(@canvas.color_pixel(-4,3,'B')).to eq(false)
-      expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
-      expect(@canvas.error).to eq("Out of image area.")
-    end
+      it "should not color the canvas at 0 but set an error and return " +
+        "false" do
 
-    it "should not color the canvas at 0 but set an error, but return " +
-      "false and set error" do
+        expect(@canvas.vertical_line(1,0,1,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
 
-      expect(@canvas.color_pixel(1,0,'B')).to eq(false)
-      expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
-      expect(@canvas.error).to eq("Out of image area.")
+      it "should not color the canvas at -1 but set an error and return " +
+        "false" do
+
+        expect(@canvas.vertical_line(-1,1,2,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
     end
   end
 end

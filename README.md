@@ -60,3 +60,20 @@ I 6 5
 L 2 3 A
 S
 ```
+
+## Set a vertical line of pixel
+
+To set a vertical line of pixel use the command `V`. It takes four arguments:
+
+   * `x` Integer between 1 and 255 which is used for colomn point.
+   * `y1` Integer between 1 and 255 which is row start point.
+   * `y2` Integer between 1 and 255 which is row end point.
+   * `c` A color which is present as as a capital letter from A to Z
+
+This example creates a 6 to 5 pixel canvas and sets a line in the second colomn
+from first to last row.  After that it prints the result.
+```
+I 6 5
+V 2 1 5 A
+S
+```
