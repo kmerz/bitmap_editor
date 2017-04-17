@@ -14,17 +14,12 @@ class BitmapEditor
       case line
       when /\AI .*\z/
         return unless parse_cmd_I(line)
-        puts "Create a new image of #{self.canvas.column_size} x " +
-          "#{self.canvas.row_size}"
       when /\AC/
         return unless parse_cmd_C(line)
-        puts "Image is cleared."
       when /\AS/
-        parse_cmd_S(line)
+        return unless parse_cmd_S(line)
       when /\AL/
-        unless parse_cmd_L(line)
-          exit
-        end
+        return unless parse_cmd_L(line)
       else
         puts "unrecognised command :("
       end
@@ -45,7 +40,6 @@ class BitmapEditor
     end
 
     if @canvas.color_pixel(x.to_i, y.to_i, color)
-      puts "Add pixel #{color} to #{x} #{y}"
       return true
     else
       puts @canvas.error
@@ -56,15 +50,16 @@ class BitmapEditor
   def parse_cmd_S(line)
     if self.canvas.nil?
       puts "There is no image"
-      return
+      return false
     end
 
     unless line.match(/\AS\z/)
       puts "S has no arguments"
-      return
+      return false
     end
 
     puts self.canvas.to_s
+    return true
   end
 
   def parse_cmd_C(line)

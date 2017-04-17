@@ -51,17 +51,18 @@ describe BitmapEditor do
 
     describe "Command I" do
       it "should create a image of 5 5" do
-        @create_command_file.call('I 5 5')
+        @create_command_file.call("I 5 5\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Create a new image of 5 x 5\n").to_stdout
+        }.to output("OOOOO\nOOOOO\nOOOOO\nOOOOO\nOOOOO\n").to_stdout
       end
 
-      it "should create a image of 100 125" do
-        @create_command_file.call('I 100 125')
+      it "should create a image of 6 7" do
+        @create_command_file.call("I 6 7\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Create a new image of 100 x 125\n").to_stdout
+        }.to output("OOOOOO\nOOOOOO\nOOOOOO\nOOOOOO\nOOOOOO\nOOOOOO"+
+          "\nOOOOOO\n").to_stdout
       end
 
       it "should warn if the arguments are not integers" do
@@ -109,10 +110,10 @@ describe BitmapEditor do
       end
 
       it "should clear a exsisting canvas" do
-        @create_command_file.call("I 5 5\nC")
+        @create_command_file.call("I 3 3\nL 2 3 B\nC\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Image is cleared.\n$/).to_stdout
+        }.to output(/OOO\nOOO\nOOO\n$/).to_stdout
       end
 
       it "should warn if C gets called with arguments" do
@@ -197,8 +198,7 @@ describe BitmapEditor do
         @create_command_file.call("I 2 3\nL 2 3 A\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Add pixel A to 2 3\nOO\nOO\nOA\n$/).
-          to_stdout
+        }.to output(/OO\nOO\nOA\n$/).to_stdout
       end
 
       it "should not add  a pixel in color A to out of area coordinate" do
