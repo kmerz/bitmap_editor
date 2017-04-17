@@ -51,7 +51,21 @@ class Canvas
   end
 
   def vertical_line(x, y1, y2, color)
-    if x_out_of_range?(x) || y_out_of_range?(y1) || y_out_of_range?(y2)
+    return draw_line(x, y1, y2, color, :x)
+  end
+
+  def horizontal_line(x1, x2, y, color)
+    return draw_line(y, x1, x2, color, :y)
+  end
+
+  private
+
+  def draw_line(a, b1, b2, color, a_is)
+    if (a_is == :x &&
+        (x_out_of_range?(a) || y_out_of_range?(b1) || y_out_of_range?(b2))) ||
+       (a_is == :y &&
+        (y_out_of_range?(a) || x_out_of_range?(b1) || x_out_of_range?(b2)))
+
       self.error = "Out of image area."
       return false
     end
@@ -61,17 +75,19 @@ class Canvas
       return false
     end
 
-    if y1 > y2
-      y1, y2 = y2, y1
+    if b1 > b2
+      b1, b2 = b2, b1
     end
 
-    (y1..y2).to_a.each do |y|
-      self.color_pixel(x, y, color)
+    (b1..b2).to_a.each do |b|
+      if a_is == :x
+        self.color_pixel(a, b, color)
+      else
+        self.color_pixel(b, a, color)
+      end
     end
     return true
   end
-
-  private
 
   def get_clear_image(columns, rows)
     Array.new(rows) { Array.new(columns) { Colors.white } }

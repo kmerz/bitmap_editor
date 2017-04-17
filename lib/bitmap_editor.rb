@@ -4,7 +4,7 @@ class BitmapEditor
 
   attr_accessor :canvas
 
-  COMMANDS = [ 'I', 'C', 'S', 'L', 'V' ]
+  COMMANDS = [ 'I', 'C', 'S', 'L', 'V', 'H' ]
 
   def run(file)
     if file.nil? || !File.exists?(file)
@@ -30,6 +30,22 @@ class BitmapEditor
   end
 
   private
+
+  def cmd_H(line)
+    match, x1, x2, y, color = line.match(/\AH (\d+) (\d+) (\d+) ([A-Z])\z/).to_a
+    if match.nil?
+      puts "Invalid arguments for H the command takes a coordinate of " +
+        "3 positive integers and color in the range from A to Z"
+      return false
+    end
+
+    if @canvas.horizontal_line(x1.to_i, x2.to_i, y.to_i, color)
+      return true
+    else
+      puts @canvas.error
+      return false
+    end
+  end
 
   def cmd_V(line)
     match, x, y1, y2, color = line.match(/\AV (\d+) (\d+) (\d+) ([A-Z])\z/).to_a

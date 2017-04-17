@@ -77,3 +77,20 @@ I 6 5
 V 2 1 5 A
 S
 ```
+
+## Set a horizontal line of pixel
+
+To set a horizontal line of pixel use the command `H`. It takes four arguments:
+
+   * `x1` Integer between 1 and 255 which is colomn start point.
+   * `x2` Integer between 1 and 255 which is column end point.
+   * `y`  Integer between 1 and 255 which is row point.
+   * `c` A color which is present as as a capital letter from A to Z
+
+This example creates a 6 to 5 pixel canvas and sets a line in the second row
+from first to last column.  After that it prints the result.
+```
+I 6 5
+H 2 1 6 A
+S
+```

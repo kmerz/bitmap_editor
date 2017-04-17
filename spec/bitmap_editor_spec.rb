@@ -242,5 +242,38 @@ describe BitmapEditor do
           to_stdout
       end
     end
+
+    describe "Command H" do
+      it "should add a horizontal line of pixel in color W" do
+        @create_command_file.call("I 2 3\nH 1 2 3 W\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output("OO\nOO\nWW\n").
+          to_stdout
+      end
+
+      it "should not add a horizontal line to an non exsiting canvas" do
+        @create_command_file.call('H 1 1 3 A')
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output("There is no image\n").to_stdout
+      end
+
+      it "should warn if no arguments are given" do
+        @create_command_file.call("I 2 3\nH\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for H the command takes a coordinate of/).
+          to_stdout
+      end
+
+      it "should warn if invalid arguments are given" do
+        @create_command_file.call("I 2 3\nH X X 3 B\nS")
+        expect {
+          @bitmap_editor.run(@file)
+        }.to output(/Invalid arguments for H the command takes a coordinate of/).
+          to_stdout
+      end
+    end
   end
 end

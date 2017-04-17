@@ -172,5 +172,44 @@ describe Canvas do
         expect(@canvas.error).to eq("Out of image area.")
       end
     end
+
+    describe "horizontal_line" do
+      it "should color the line in first row form 1 to 3 in X" do
+        expect(@canvas.horizontal_line(1,3,1,'X')).to eq(true)
+        expect(@canvas.to_s).to eq("XXX\nOOO\nOOO\n")
+      end
+
+      it "should color the line in second row form 3 to 2 in X" do
+        expect(@canvas.horizontal_line(2,3,2,'X')).to eq(true)
+        expect(@canvas.to_s).to eq("OOO\nOXX\nOOO\n")
+      end
+
+      it "should color line in the third row form colomn 1 to 1 in X" do
+        expect(@canvas.horizontal_line(1,1,3,'X')).to eq(true)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nXOO\n")
+      end
+
+      it "should not color the canvas with unknown color" do
+        expect(@canvas.horizontal_line(1,1,3,'#333')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Unknown color.")
+      end
+
+      it "should not color the canvas at 0 but set an error and return " +
+        "false" do
+
+        expect(@canvas.horizontal_line(1,0,1,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
+
+      it "should not color the canvas at -1 but set an error and return " +
+        "false" do
+
+        expect(@canvas.horizontal_line(-1,1,2,'B')).to eq(false)
+        expect(@canvas.to_s).to eq("OOO\nOOO\nOOO\n")
+        expect(@canvas.error).to eq("Out of image area.")
+      end
+    end
   end
 end
