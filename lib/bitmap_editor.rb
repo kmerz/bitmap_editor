@@ -8,7 +8,7 @@ class BitmapEditor
 
   def run(file)
     if file.nil? || !File.exists?(file)
-      return puts "please provide correct file"
+      return puts "Please provide correct file."
     end
 
     File.open(file).each do |line|
@@ -16,12 +16,12 @@ class BitmapEditor
 
       cmd = line.split.first
       unless COMMANDS.include?(cmd)
-        puts "unrecognised command :("
+        puts "Command not found."
         return
       end
 
       if self.canvas.nil? && cmd != 'I'
-        puts "There is no image"
+        puts "No image initialized yet. Please use command I first."
         return
       end
 
@@ -81,7 +81,7 @@ class BitmapEditor
 
   def cmd_S(line)
     unless line.match(/\AS\z/)
-      puts "S has no arguments"
+      puts "S has no arguments."
       return false
     end
 
@@ -91,7 +91,7 @@ class BitmapEditor
 
   def cmd_C(line)
     if line.match(/\AC.+\z/)
-      puts "C has no arguments"
+      puts "C has no arguments."
       return false
     end
 
@@ -101,7 +101,7 @@ class BitmapEditor
 
   def cmd_I(line)
     unless line.match(/\AI \d+ \d+\z/)
-      puts "Command I got non integer arguments"
+      puts "Command I got non integer arguments."
       return false
     end
     _, x, y = line.split(' ')
@@ -109,12 +109,12 @@ class BitmapEditor
     rows = y.to_i
 
     if rows > 250 || rows < 1
-      puts "Rows value must be between 1 and 250"
+      puts "Rows value must be between 1 and 250."
       return false
     end
 
     if columns > 250 || columns < 1
-      puts "Columns value must be between 1 and 250"
+      puts "Columns value must be between 1 and 250."
       return false
     end
 
