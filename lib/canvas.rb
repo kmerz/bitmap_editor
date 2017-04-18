@@ -36,15 +36,7 @@ class Canvas
   end
 
   def color_pixel(x, y, color)
-    if x_out_of_range?(x) || y_out_of_range?(y)
-      self.error = "Out of image area."
-      return false
-    end
-
-    unless Colors.validate(color)
-      self.error = "Unknown color."
-      return false
-    end
+    return false unless valid_pixel_arguments(x, y, color)
 
     self.image[y-1][x-1] = color
     return true
@@ -61,6 +53,37 @@ class Canvas
   private
 
   def draw_line(a, b1, b2, color, a_is)
+    return false unless valid_line_arguments?(a, b1, b2, color, a_is)
+
+    if b1 > b2
+      b1, b2 = b2, b1
+    end
+
+    (b1..b2).to_a.each do |b|
+      if a_is == :x
+        self.color_pixel(a, b, color)
+      else
+        self.color_pixel(b, a, color)
+      end
+    end
+    return true
+  end
+
+  def valid_pixel_arguments(x, y, color)
+    if x_out_of_range?(x) || y_out_of_range?(y)
+      self.error = "Out of image area."
+      return false
+    end
+
+    unless Colors.validate(color)
+      self.error = "Unknown color."
+      return false
+    end
+
+    return true
+  end
+
+  def valid_line_arguments?(a, b1, b2, color, a_is)
     if (a_is == :x &&
         (x_out_of_range?(a) || y_out_of_range?(b1) || y_out_of_range?(b2))) ||
        (a_is == :y &&
@@ -75,17 +98,6 @@ class Canvas
       return false
     end
 
-    if b1 > b2
-      b1, b2 = b2, b1
-    end
-
-    (b1..b2).to_a.each do |b|
-      if a_is == :x
-        self.color_pixel(a, b, color)
-      else
-        self.color_pixel(b, a, color)
-      end
-    end
     return true
   end
 
