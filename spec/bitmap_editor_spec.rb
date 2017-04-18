@@ -14,13 +14,13 @@ describe BitmapEditor do
     it "should warn if file does not exsits" do
       expect {
         @bitmap_editor.run("./DOES_NOT_EXSIT")
-      }.to output("Please provide correct file.\n").to_stdout
+      }.to output("Please provide correct file.\n").to_stderr
     end
 
     it "should warn if no file was provided" do
       expect {
         @bitmap_editor.run(nil)
-      }.to output("Please provide correct file.\n").to_stdout
+      }.to output("Please provide correct file.\n").to_stderr
     end
   end
 
@@ -45,7 +45,7 @@ describe BitmapEditor do
         @create_command_file.call('💩')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Command not found.\n").to_stdout
+        }.to output("Command not found.\n").to_stderr
       end
     end
 
@@ -69,35 +69,35 @@ describe BitmapEditor do
         @create_command_file.call('I am 💩')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Command I got non integer arguments.\n").to_stdout
+        }.to output("Command I got non integer arguments.\n").to_stderr
       end
 
       it "should warn if rows the arguments are to big" do
         @create_command_file.call('I 5 251')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Rows value must be between 1 and 250.\n").to_stdout
+        }.to output("Rows value must be between 1 and 250.\n").to_stderr
       end
 
       it "should warn if rows the arguments are to small" do
         @create_command_file.call('I 5 0')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Rows value must be between 1 and 250.\n").to_stdout
+        }.to output("Rows value must be between 1 and 250.\n").to_stderr
       end
 
       it "should warn if columns the arguments are to big" do
         @create_command_file.call('I 251 5')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Columns value must be between 1 and 250.\n").to_stdout
+        }.to output("Columns value must be between 1 and 250.\n").to_stderr
       end
 
       it "should warn if columns the arguments are to small" do
         @create_command_file.call('I 0 5')
         expect {
           @bitmap_editor.run(@file)
-        }.to output("Columns value must be between 1 and 250.\n").to_stdout
+        }.to output("Columns value must be between 1 and 250.\n").to_stderr
       end
     end
 
@@ -107,7 +107,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(
-          "No image initialized yet. Please use command I first.\n").to_stdout
+          "No image initialized yet. Please use command I first.\n").to_stderr
       end
 
       it "should clear a exsisting canvas" do
@@ -121,7 +121,7 @@ describe BitmapEditor do
         @create_command_file.call("I 5 5\nC 1 2")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/C has no arguments.\n$/).to_stdout
+        }.to output(/C has no arguments.\n$/).to_stderr
       end
     end
 
@@ -131,14 +131,14 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(
-          "No image initialized yet. Please use command I first.\n").to_stdout
+          "No image initialized yet. Please use command I first.\n").to_stderr
       end
 
       it "should warn if arguments are given to S" do
         @create_command_file.call("I 2 2\nS am P")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/S has no arguments.\n$/).to_stdout
+        }.to output(/S has no arguments.\n$/).to_stderr
       end
 
       it "should print the 2 x 2 image" do
@@ -162,7 +162,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(
-          "No image initialized yet. Please use command I first.\n").to_stdout
+          "No image initialized yet. Please use command I first.\n").to_stderr
       end
 
       it "should warn if no arguments are given" do
@@ -170,7 +170,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should warn if first argument is not an integer" do
@@ -178,7 +178,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should warn if second argument is not an integer" do
@@ -186,7 +186,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should warn if third argument is not a color from A to Z" do
@@ -194,7 +194,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should add a pixel in color A to coordinate 2 3 if everything is find" do
@@ -209,7 +209,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Out of image area.\n$/).
-          to_stdout
+          to_stderr
       end
     end
 
@@ -227,7 +227,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(
-          "No image initialized yet. Please use command I first.\n").to_stdout
+          "No image initialized yet. Please use command I first.\n").to_stderr
       end
 
       it "should warn if no arguments are given" do
@@ -235,7 +235,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for V the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should warn if invalid arguments are given" do
@@ -243,7 +243,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for V the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
     end
 
@@ -261,7 +261,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(
-          "No image initialized yet. Please use command I first.\n").to_stdout
+          "No image initialized yet. Please use command I first.\n").to_stderr
       end
 
       it "should warn if no arguments are given" do
@@ -269,7 +269,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for H the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
 
       it "should warn if invalid arguments are given" do
@@ -277,7 +277,7 @@ describe BitmapEditor do
         expect {
           @bitmap_editor.run(@file)
         }.to output(/Invalid arguments for H the command takes a coordinate of/).
-          to_stdout
+          to_stderr
       end
     end
   end
