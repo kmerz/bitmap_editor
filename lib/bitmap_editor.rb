@@ -34,8 +34,8 @@ class BitmapEditor
   def cmd_H(line)
     match, x1, x2, y, color = line.match(/\AH (\d+) (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
-      $stderr.puts "Invalid arguments for H the command takes a coordinate of " +
-        "3 positive integers and color in the range from A to Z"
+      $stderr.puts "Invalid arguments for H the command takes a coordinate " +
+       "of 3 positive integers and color in the range from A to Z"
       return false
     end
 
@@ -50,8 +50,8 @@ class BitmapEditor
   def cmd_V(line)
     match, x, y1, y2, color = line.match(/\AV (\d+) (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
-      $stderr.puts "Invalid arguments for V the command takes a coordinate of " +
-        "3 positive integers and color in the range from A to Z"
+      $stderr.puts "Invalid arguments for V the command takes a coordinate " +
+      "of 3 positive integers and color in the range from A to Z"
       return false
     end
 
@@ -66,8 +66,8 @@ class BitmapEditor
   def cmd_L(line)
     match, x, y, color = line.match(/\AL (\d+) (\d+) ([A-Z])\z/).to_a
     if match.nil?
-      $stderr.puts "Invalid arguments for L the command takes a coordinate of " +
-        "2 positive integers and color in the range from A to Z"
+      $stderr.puts "Invalid arguments for L the command takes a coordinate " +
+        "of 2 positive integers and color in the range from A to Z"
       return false
     end
 

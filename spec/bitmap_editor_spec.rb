@@ -169,35 +169,37 @@ describe BitmapEditor do
         @create_command_file.call("I 2 3\nL")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for L the command takes a coordinate of/).to_stderr
       end
 
       it "should warn if first argument is not an integer" do
         @create_command_file.call("I 2 3\nL A 2 A")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for L the command takes a coordinate of/).to_stderr
       end
 
       it "should warn if second argument is not an integer" do
         @create_command_file.call("I 2 3\nL 2 A A")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for L the command takes a coordinate of/).to_stderr
       end
 
       it "should warn if third argument is not a color from A to Z" do
         @create_command_file.call("I 2 3\nL 2 3 1")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for L the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for L the command takes a coordinate of/).to_stderr
       end
 
-      it "should add a pixel in color A to coordinate 2 3 if everything is find" do
+      it "should add a pixel in color A to coordinate 2 3 if everything " +
+        "is find" do
+
         @create_command_file.call("I 2 3\nL 2 3 A\nS")
         expect {
           @bitmap_editor.run(@file)
@@ -234,16 +236,16 @@ describe BitmapEditor do
         @create_command_file.call("I 2 3\nV\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for V the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for V the command takes a coordinate of/).to_stderr
       end
 
       it "should warn if invalid arguments are given" do
         @create_command_file.call("I 2 3\nV X X 3 B\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for V the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for V the command takes a coordinate of/).to_stderr
       end
     end
 
@@ -268,16 +270,16 @@ describe BitmapEditor do
         @create_command_file.call("I 2 3\nH\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for H the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for H the command takes a coordinate of/).to_stderr
       end
 
       it "should warn if invalid arguments are given" do
         @create_command_file.call("I 2 3\nH X X 3 B\nS")
         expect {
           @bitmap_editor.run(@file)
-        }.to output(/Invalid arguments for H the command takes a coordinate of/).
-          to_stderr
+        }.to output(
+          /Invalid arguments for H the command takes a coordinate of/).to_stderr
       end
     end
   end
